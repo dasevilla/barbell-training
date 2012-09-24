@@ -1,0 +1,23 @@
+\documentclass{article}
+
+\usepackage[labelformat=empty]{caption}
+\usepackage[landscape, margin=0.25in]{geometry}
+\usepackage{booktabs}
+\usepackage{latexsym}
+\usepackage{multirow}
+
+\begin{document}{% for week in week_list %}{% set week_num = loop.index %}
+    \begin{table}[t]
+    \centering{% for routine, exercises in week %}{% set day_num = loop.index %}
+        \begin{minipage}[t]{0.3\textwidth}
+        \centering
+        \caption{Week {{ week_num }}, Day {{ day_num }}, Routine {{ routine }} }
+        \begin{tabular}{ l c c c c }
+            \toprule
+            Exercise & Weight & Side & Reps & Sets \\ \toprule{% for name, sets in exercises %}
+            \multirow{4}{*}{ {{name}} }{% for set in sets %}
+                & {{ set.weight }} & {{ set.weight_side }} & {{ set.reps }} & {{ set.sets }} \\ {% if not loop.last %}\cmidrule{2-5}{% endif %}{% endfor %}{% if not loop.last %}\midrule{% else %}\bottomrule{% endif %}{% endfor %}
+        \end{tabular}
+        \end{minipage}{% if not loop.last %}\hfill{% endif %}{% endfor %}
+    \end{table}{% endfor %}
+\end{document}
