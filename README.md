@@ -11,5 +11,5 @@ The `Jinja2` Python module and the `pdflatex` command.
 # Usage
 
 You need to update the exercises defined in the `main` method of `strength.py`
-to match you current level. Once updated, a simple `make default` will build a
+to match your current level. Once updated, a simple `make default` will build a
 PDF.
