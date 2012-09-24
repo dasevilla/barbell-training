@@ -1,6 +1,6 @@
 A simple script to generate a training program described in the book
 [Starting Strength](http://startingstrength.com/). See the
-[sample routine](/sample.pdf).
+[sample routine](https://github.com/dasevilla/barbell-training/raw/master/sample.pdf).
 
 
 # Requirements
