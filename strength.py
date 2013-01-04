@@ -8,7 +8,7 @@ from jinja2 import Environment, FileSystemLoader
 class Exercise(object):
 
     def __init__(self, name, max_weight, increment_size=10, warm_up_sets=3,
-                 bar_weight=45, work_sets=3, work_reps=5):
+                 bar_weight=45, work_sets=3, work_reps=5, start_weight=0):
         self.name = name
         self.bar_weight = bar_weight
         self.max_weight = max_weight
@@ -16,6 +16,10 @@ class Exercise(object):
         self.warm_up_sets = warm_up_sets
         self.work_sets = work_sets
         self.work_reps = work_reps
+        if start_weight > 0:
+            self.start_weight = start_weight
+        else:
+            self.start_weight = bar_weight
 
     def round_weight(self, weight, base=5):
         """Round a weight to a certain plate increment"""
@@ -25,14 +29,13 @@ class Exercise(object):
         """Returns a list of (weight, reps, sets)"""
 
         end_weight = self.max_weight
-        start_weight = self.bar_weight
         warm_up_steps = self.warm_up_sets
 
         routine = []
 
         routine.append({
-            'weight': start_weight,
-            'weight_side': 0.0,
+            'weight': self.start_weight,
+            'weight_side': (self.start_weight - self.bar_weight) / 2.0,
             'reps': 5,
             'sets': 2,
         })
@@ -49,7 +52,7 @@ class Exercise(object):
             weight = self.round_weight(end_weight * weight_multiplier)
             routine.append({
                 'weight': weight,
-                'weight_side': (weight - start_weight) / 2.0,
+                'weight_side': (weight - self.bar_weight) / 2.0,
                 'reps': reps,
                 'sets': sets,
             })
@@ -88,8 +91,8 @@ def main():
     squat = Exercise('Squat', 165, increment_size=10)
     press = Exercise('Press', 90, increment_size=5)
     bench_press = Exercise('Bench Press', 105, increment_size=5)
-    dead_lift = Exercise('Dead Lift', 195, bar_weight=135, increment_size=15,
-        work_sets=1)  # Only one set
+    dead_lift = Exercise('Dead Lift', 195, bar_weight=45, increment_size=15,
+        work_sets=1, start_weight=135)
 
     routines = [
         ("A", (squat, press, dead_lift)),
